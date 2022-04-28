@@ -65,19 +65,19 @@ class Geofencing {
         }
         break;
       case "idForEnter":
-        int id = call.arguments["id"];
+        String id = call.arguments["id"];
         // send id to app - get reminder - call reminderForEnterRegion with reminderMap
         break;
       case "idForExit":
-        int id = call.arguments["id"];
+        String id = call.arguments["id"];
         // send id to app - get reminder - call reminderForExitRegion with reminderMap
         break;
       case "idForSnooze":
-        int id = call.arguments["id"];
+        String id = call.arguments["id"];
         // send id to app - get reminder - snooze reminder
         break;
       case "idForDisable":
-        int id = call.arguments["id"];
+        String id = call.arguments["id"];
         // send id to app - get reminder - set reminder to active = false - send reminder to reminderForDisable
         break;
     }

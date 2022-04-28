@@ -29,7 +29,7 @@ import CoreLocation
         if let region = region as? CLCircularRegion {
             let identifier = region.identifier
             print(identifier)
-            geoFencing.handleEnterRegion(reminderId: Int(identifier)!)
+            geoFencing.handleEnterRegion(reminderId: String(identifier)!)
         }
     }
     
@@ -37,7 +37,7 @@ import CoreLocation
         if let region = region as? CLCircularRegion {
             let identifier = region.identifier
              print(identifier)
-            geoFencing.handleExitRegion(reminderId: Int(identifier)!)
+            geoFencing.handleExitRegion(reminderId: String(identifier)!)
         }
     }
     
@@ -52,7 +52,7 @@ import CoreLocation
         
         let userInfo = response.notification.request.content.userInfo
         if let remindId = userInfo["reminderId"] {
-            reminderId = remindId as! Int
+            reminderId = remindId as! String
         }
         
         switch response.actionIdentifier {

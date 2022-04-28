@@ -3,26 +3,26 @@ import UIKit
 import CoreLocation
 
 public class SwiftGeofencingPlugin: NSObject, FlutterPlugin, GeoFencingDelegate {
-    func snoozeReminderFromId(id: Int) {
-        var send: [String: Int] = [:]
+    func snoozeReminderFromId(id: String) {
+        var send: [String: String] = [:]
         send["id"] = id
         SwiftGeofencingPlugin.sendIdForSnooze(args: send)
     }
     
-    func disableReminderFromId(id: Int) {
-        var send: [String: Int] = [:]
+    func disableReminderFromId(id: String) {
+        var send: [String: String] = [:]
         send["id"] = id
         SwiftGeofencingPlugin.sendIdForDisable(args: send)
     }
     
-    func getReminderForEnter(id: Int) {
-        var send: [String: Int] = [:]
+    func getReminderForEnter(id: String) {
+        var send: [String: String] = [:]
         send["id"] = id
         SwiftGeofencingPlugin.sendIdForEnter(args: send)
     }
     
-    func getReminderForExit(id: Int) {
-        var send: [String: Int] = [:]
+    func getReminderForExit(id: String) {
+        var send: [String: String] = [:]
         send["id"] = id
         SwiftGeofencingPlugin.sendIdForExit(args: send)
     }
@@ -42,16 +42,16 @@ public class SwiftGeofencingPlugin: NSObject, FlutterPlugin, GeoFencingDelegate 
     public static func sendLocation(args: [String: Double]) {
         channel?.invokeMethod("locationUpdate", arguments: args)
     }
-    public static func sendIdForEnter(args: [String: Int]) {
+    public static func sendIdForEnter(args: [String: String]) {
         channel?.invokeMethod("idForEnter", arguments: args)
     }
-    public static func sendIdForExit(args: [String: Int]) {
+    public static func sendIdForExit(args: [String: String]) {
         channel?.invokeMethod("idForExit", arguments: args)
     }
-    public static func sendIdForSnooze(args: [String: Int]) {
+    public static func sendIdForSnooze(args: [String: String]) {
         channel?.invokeMethod("idForSnooze", arguments: args)
     }
-    public static func sendIdForDisable(args: [String: Int]) {
+    public static func sendIdForDisable(args: [String: String]) {
         channel?.invokeMethod("idForDisable", arguments: args)
     }
     

@@ -3,7 +3,7 @@ import CoreLocation
 
 
 struct Reminder {
-  var id: Int = 0
+  var id: String = ""
   var lat: Double = 0
   var lng: Double = 0
   var radius: Int = 0
@@ -14,7 +14,7 @@ struct Reminder {
   var snoozeLength: Int = 0
 
   init(fromDictionary r: [String: Any]) {
-    id = r["id"] as! Int
+    id = r["id"] as! String
     lat = r["lat"] as! Double
     lng = r["lng"] as! Double
     radius = r["radius"] as! Int
