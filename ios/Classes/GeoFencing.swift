@@ -165,7 +165,7 @@ public class GeoFencing : NSObject, CLLocationManagerDelegate {
         }
     }
     
-     func snoozeReminder(reminderId: String) {
+     public func snoozeReminder(reminderId: String) {
         // send id to app - all work below can be done there
          delegate?.snoozeReminderFromId(id: reminderId)
          
@@ -176,7 +176,7 @@ public class GeoFencing : NSObject, CLLocationManagerDelegate {
      }
     
     
-     func disableReminder(reminderId: String) {
+     public func disableReminder(reminderId: String) {
          // send id to app - update reminder - send reminder to disable reminder
          delegate?.disableReminderFromId(id: reminderId)
 //         let reminder = remindService.getReminderById(id: reminderId)
@@ -223,7 +223,7 @@ public class GeoFencing : NSObject, CLLocationManagerDelegate {
         return activeRegions;
     }
     
-     func handleEnterRegion(reminderId: String) {
+     public func handleEnterRegion(reminderId: String) {
          // send enter action and id to get reminder
          delegate?.getReminderForEnter(id: reminderId)
      }
@@ -236,7 +236,7 @@ public class GeoFencing : NSObject, CLLocationManagerDelegate {
         }
     }
     
-     func handleExitRegion(reminderId: String) {
+     public func handleExitRegion(reminderId: String) {
          // send exit action and id to get reminder
          delegate?.getReminderForExit(id: reminderId)
      }
