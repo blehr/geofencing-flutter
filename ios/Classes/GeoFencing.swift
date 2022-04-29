@@ -18,7 +18,7 @@ protocol GeoFencingDelegate {
     func disableReminderFromId(id: String)
 }
 
-class GeoFencing : NSObject, CLLocationManagerDelegate {
+public class GeoFencing : NSObject, CLLocationManagerDelegate {
     
     let locationManager: CLLocationManager = CLLocationManager()
     var lastLocation: CLLocation?
@@ -98,13 +98,13 @@ class GeoFencing : NSObject, CLLocationManagerDelegate {
         // handleRegisterRegionsByLocation(reminders: array)
     }
     
-    func locationManager(_ manager: CLLocationManager,  didUpdateLocations locations: [CLLocation]) {
+    public func locationManager(_ manager: CLLocationManager,  didUpdateLocations locations: [CLLocation]) {
         self.lastLocation = locations.last!
         
        delegate?.locationDidUpdate(location: lastLocation!)
     }
     
-    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+    public func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         if let error = error as? CLError, error.code == .denied {
             manager.stopUpdatingLocation()
             return
