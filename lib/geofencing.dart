@@ -10,6 +10,7 @@ class Geofencing extends ChangeNotifier {
 
   Geofencing._internal() {
     _channel.setMethodCallHandler(myMethodCallHandler);
+    getReminderById = getReminderById;
     _instance = this;
   }
 
