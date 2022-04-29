@@ -101,7 +101,7 @@ class Geofencing extends ChangeNotifier {
         break;
       case "idForExit":
         String id = call.arguments["id"];
-        print("idForEnter $id");
+        print("idForExit $id");
         // send id to app - get reminder - call reminderForExitRegion with reminderMap
         var reminder = getReminderById(id);
         print(reminder);
