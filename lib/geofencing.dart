@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
-class Geofencing {
+class Geofencing extends ChangeNotifier {
   final MethodChannel _channel = const MethodChannel('geofencing');
 
   static Geofencing? _instance;
@@ -18,6 +18,11 @@ class Geofencing {
   Map<String, double>? lastLoc;
 
   Map<String, double>? get lastLocation => lastLoc;
+
+  String idForEnter = "";
+  String idForExit = "";
+  String idForSnooze = "";
+  String idForDismiss = "";
 
   Future<String?> get platformVersion async {
     final String? version = await _channel.invokeMethod('getPlatformVersion');
@@ -75,6 +80,7 @@ class Geofencing {
           args["lat"] = call.arguments["lat"];
           args["lng"] = call.arguments["lng"];
           lastLoc = args;
+          notifyListeners();
         } catch (e) {
           if (kDebugMode) {
             print(e.toString());
@@ -84,18 +90,26 @@ class Geofencing {
       case "idForEnter":
         String id = call.arguments["id"];
         // send id to app - get reminder - call reminderForEnterRegion with reminderMap
+        idForEnter = id;
+        notifyListeners();
         break;
       case "idForExit":
         String id = call.arguments["id"];
         // send id to app - get reminder - call reminderForExitRegion with reminderMap
+        idForExit = id;
+        notifyListeners();
         break;
       case "idForSnooze":
         String id = call.arguments["id"];
         // send id to app - get reminder - snooze reminder
+        idForSnooze = id;
+        notifyListeners();
         break;
       case "idForDisable":
         String id = call.arguments["id"];
         // send id to app - get reminder - set reminder to active = false - send reminder to reminderForDisable
+        idForDismiss = id;
+        notifyListeners();
         break;
     }
   }
