@@ -299,7 +299,7 @@ public class GeoFencing : NSObject, CLLocationManagerDelegate {
             }
         }
         let active = locationManager.monitoredRegions
-        print("Monitored Regions \(active)")
+        print("Monitored Regions \(locationManager.monitoredRegions)")
         return active
     }
     
