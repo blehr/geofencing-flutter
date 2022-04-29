@@ -121,6 +121,7 @@ public class GeoFencing : NSObject, CLLocationManagerDelegate {
     
     @available(iOS 10.0, *)
     func createLocalNotificationTrigger(reminder: Reminder, trigger: String) {
+        print("creating local notification trigger");
          let content = UNMutableNotificationContent()
          content.title = "\(trigger)\(reminder.name)"
          content.body = reminder.message

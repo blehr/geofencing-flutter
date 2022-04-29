@@ -56,20 +56,20 @@ class Geofencing extends ChangeNotifier {
     return status;
   }
 
-  Future<String> reminderForExitRegion(Map<String, dynamic> reminder) async {
-    final String status =
+  Future<bool> reminderForExitRegion(Map<String, dynamic> reminder) async {
+    final bool status =
         await _channel.invokeMethod("reminderForExit", reminder);
     return status;
   }
 
-  Future<String> reminderForDisable(Map<String, dynamic> reminder) async {
-    final String status =
+  Future<bool> reminderForDisable(Map<String, dynamic> reminder) async {
+    final bool status =
         await _channel.invokeMethod("reminderForDisable", reminder);
     return status;
   }
 
-  Future<String> reminderForSnooze(Map<String, dynamic> reminder) async {
-    final String status =
+  Future<bool> reminderForSnooze(Map<String, dynamic> reminder) async {
+    final bool status =
         await _channel.invokeMethod("reminderForSnooze", reminder);
     return status;
   }
