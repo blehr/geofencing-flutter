@@ -192,7 +192,9 @@ public class GeoFencing : NSObject, CLLocationManagerDelegate {
     
     func startMonitoringReminderLocation(reminder: Reminder) {
         if CLLocationManager.authorizationStatus() == .authorizedAlways {
+            print("Authorized")
             if CLLocationManager.isMonitoringAvailable(for: CLCircularRegion.self) {
+                print("monitoring is available for \(reminder.name)")
                 let center = CLLocationCoordinate2D(latitude: reminder.lat, longitude: reminder.lng)
                 let region = CLCircularRegion(center: center,
                                               radius: CLLocationDistance(reminder.radius), identifier: "\(reminder.id)")
@@ -206,6 +208,7 @@ public class GeoFencing : NSObject, CLLocationManagerDelegate {
     }
     
     func stopMonitoringReminderLocation(reminder: Reminder) {
+        print("stopping monitoring on \(reminder.name)")
         let center =  reminder.getLocation2D()
         let region = CLCircularRegion(center: center,
                                       radius: CLLocationDistance(reminder.radius), identifier: "\(reminder.id)")
@@ -217,11 +220,11 @@ public class GeoFencing : NSObject, CLLocationManagerDelegate {
     }
     
     
-    func getActiveRegions() -> Set<CLRegion> {
-        let activeRegions = locationManager.monitoredRegions
-        print("ACTIVE REGIONS \(activeRegions)")
-        return activeRegions;
-    }
+    // func getActiveRegions() -> Set<CLRegion> {
+    //     let activeRegions = locationManager.monitoredRegions
+    //     print("ACTIVE REGIONS \(activeRegions)")
+    //     return activeRegions;
+    // }
     
      public func handleEnterRegion(reminderId: String) {
          // send enter action and id to get reminder
@@ -294,7 +297,8 @@ public class GeoFencing : NSObject, CLLocationManagerDelegate {
                 }
             }
         }
-        let active = getActiveRegions()
+        let active = locationManager.monitoredRegions
+        print("Monitored Regions \(active)")
         return active
     }
     
