@@ -13,23 +13,14 @@ class Geofencing extends ChangeNotifier {
     _instance = this;
   }
 
-  factory Geofencing(Function idForEnterCB, Function idForExitCB,
-          Function idForSnoozeCB, Function idForDismissCb) =>
+  factory Geofencing(Function getReminderById) =>
       _instance ?? Geofencing._internal();
 
   Map<String, double>? lastLoc;
 
   Map<String, double>? get lastLocation => lastLoc;
 
-  String idForEnter = "";
-  String idForExit = "";
-  String idForSnooze = "";
-  String idForDismiss = "";
-
-  late Function idForEnterCB;
-  late Function idForExitCB;
-  late Function idForSnoozeCB;
-  late Function idForDismissCB;
+  late Function getReminderById;
 
   Future<String?> get platformVersion async {
     final String? version = await _channel.invokeMethod('getPlatformVersion');
@@ -103,26 +94,26 @@ class Geofencing extends ChangeNotifier {
       case "idForEnter":
         String id = call.arguments["id"];
         // send id to app - get reminder - call reminderForEnterRegion with reminderMap
-        idForEnter = id;
-        notifyListeners();
+        var reminder = getReminderById(id);
+        reminderForEnterRegion(reminder);
         break;
       case "idForExit":
         String id = call.arguments["id"];
         // send id to app - get reminder - call reminderForExitRegion with reminderMap
-        idForExit = id;
-        notifyListeners();
+        var reminder = getReminderById(id);
+        reminderForExitRegion(reminder);
         break;
       case "idForSnooze":
         String id = call.arguments["id"];
         // send id to app - get reminder - snooze reminder
-        idForSnooze = id;
-        notifyListeners();
+        var reminder = getReminderById(id);
+        reminderForSnooze(reminder);
         break;
       case "idForDisable":
         String id = call.arguments["id"];
         // send id to app - get reminder - set reminder to active = false - send reminder to reminderForDisable
-        idForDismiss = id;
-        notifyListeners();
+        var reminder = getReminderById(id);
+        reminderForDisable(reminder);
         break;
     }
   }
