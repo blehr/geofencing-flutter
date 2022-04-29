@@ -27,7 +27,7 @@ public class SwiftGeofencingPlugin: NSObject, FlutterPlugin, GeoFencingDelegate 
         SwiftGeofencingPlugin.sendIdForExit(args: send)
     }
     
-    static var geoFencing: GeoFencing = GeoFencing()
+    public static var geoFencing: GeoFencing = GeoFencing()
     static var channel: FlutterMethodChannel?
     static var instance: SwiftGeofencingPlugin?
 
