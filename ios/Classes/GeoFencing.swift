@@ -266,6 +266,7 @@ public class GeoFencing : NSObject, CLLocationManagerDelegate {
         let inactiveReminders = reminders.filter{$0.active == false}
         let maxCount = 20
         let activeRegions = locationManager.monitoredRegions
+        print("active: \(activeReminders.count), inactive: \(inactiveReminders.count), activeRegions: \(activeRegions.count)")
         
         for ar in activeRegions {
             locationManager.stopMonitoring(for: ar)
