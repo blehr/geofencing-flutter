@@ -13,7 +13,9 @@ class Geofencing extends ChangeNotifier {
     _instance = this;
   }
 
-  factory Geofencing() => _instance ?? Geofencing._internal();
+  factory Geofencing(Function idForEnterCB, Function idForExitCB,
+          Function idForSnoozeCB, Function idForDismissCb) =>
+      _instance ?? Geofencing._internal();
 
   Map<String, double>? lastLoc;
 
@@ -23,6 +25,11 @@ class Geofencing extends ChangeNotifier {
   String idForExit = "";
   String idForSnooze = "";
   String idForDismiss = "";
+
+  late Function idForEnterCB;
+  late Function idForExitCB;
+  late Function idForSnoozeCB;
+  late Function idForDismissCB;
 
   Future<String?> get platformVersion async {
     final String? version = await _channel.invokeMethod('getPlatformVersion');
