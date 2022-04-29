@@ -272,6 +272,7 @@ public class GeoFencing : NSObject, CLLocationManagerDelegate {
         print("active: \(activeReminders.count), inactive: \(inactiveReminders.count), activeRegions: \(activeRegions.count)")
         
         for ar in activeRegions {
+            print("active Region being stopped before continuing \(ar)")
             locationManager.stopMonitoring(for: ar)
         }
         
