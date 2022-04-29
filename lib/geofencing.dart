@@ -29,6 +29,17 @@ class Geofencing {
     return status;
   }
 
+  Future<int> handleRegisterRegionsByLocation(
+      List<Map<String, dynamic>> reminders, bool appEnabled) async {
+    Map<String, dynamic> send = <String, dynamic>{};
+    send["reminders"] = reminders;
+    send["appEnabled"] = appEnabled;
+
+    final int activeRegions =
+        await _channel.invokeMethod("handleRegisterRegionsByLocation", send);
+    return activeRegions;
+  }
+
   Future<String> reminderForEnterRegion(Map<String, dynamic> reminder) async {
     final String status =
         await _channel.invokeMethod("reminderForEnter", reminder);
