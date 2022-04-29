@@ -76,6 +76,12 @@ class Geofencing extends ChangeNotifier {
     return status;
   }
 
+  Future<String> reminderForSnooze(Map<String, dynamic> reminder) async {
+    final String status =
+        await _channel.invokeMethod("reminderForSnooze", reminder);
+    return status;
+  }
+
   Future<dynamic> myMethodCallHandler(MethodCall call) async {
     if (kDebugMode) {
       print(call.method);
