@@ -6,16 +6,16 @@ import 'package:flutter/services.dart';
 class Geofencing extends ChangeNotifier {
   final MethodChannel _channel = const MethodChannel('geofencing');
 
-  static Geofencing? _instance;
+  static final Geofencing _instance = Geofencing._internal();
 
   Geofencing._internal() {
     _channel.setMethodCallHandler(myMethodCallHandler);
-    getReminderById = getReminderById;
-    _instance = this;
   }
 
-  factory Geofencing(Function getReminderById) =>
-      _instance ?? Geofencing._internal();
+  factory Geofencing(Function getReminderById) {
+    _instance.getReminderById = getReminderById;
+    return _instance;
+  }
 
   Map<String, double>? lastLoc;
 
