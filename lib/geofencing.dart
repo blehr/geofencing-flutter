@@ -29,6 +29,12 @@ class Geofencing {
     return status;
   }
 
+  Future<String> stopUpdatingLocationForApp() async {
+    final String status =
+        await _channel.invokeMethod("stopUpdatingLocationForApp");
+    return status;
+  }
+
   Future<int> handleRegisterRegionsByLocation(
       List<Map<String, dynamic>> reminders, bool appEnabled) async {
     Map<String, dynamic> send = <String, dynamic>{};

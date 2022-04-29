@@ -99,6 +99,9 @@ public class SwiftGeofencingPlugin: NSObject, FlutterPlugin, GeoFencingDelegate 
             let reminder = Reminder.init(fromDictionary: args)
             SwiftGeofencingPlugin.geoFencing.disableReminder(reminder: reminder)
            result(true)
+        } else if (call.method.elementsEqual("stopUpdatingLocationForApp")) {
+            SwiftGeofencingPlugin.geoFencing.stopUpdatingLocationForApp();
+            result(true)
         }
         
         
