@@ -29,8 +29,8 @@ class Geofencing {
     return status;
   }
 
-  Future<String> stopUpdatingLocationForApp() async {
-    final String status =
+  Future<bool> stopUpdatingLocationForApp() async {
+    final bool status =
         await _channel.invokeMethod("stopUpdatingLocationForApp");
     return status;
   }
