@@ -66,6 +66,7 @@ public class SwiftGeofencingPlugin: NSObject, FlutterPlugin, GeoFencingDelegate 
     
     
     public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
+        print("Call Method in SwiftGeoFencing: \(call.method)")
         if (call.method.elementsEqual("enableLocationServices")) {
             SwiftGeofencingPlugin.geoFencing.enableLocationServices()
             result("true")
@@ -82,7 +83,9 @@ public class SwiftGeofencingPlugin: NSObject, FlutterPlugin, GeoFencingDelegate 
             result(activeRegions.count)
         } else if (call.method.elementsEqual("reminderForEnter")) {
              let args: [String: Any] = call.arguments as! [String : Any]
+             print("args in Enter \(args)")
              let reminder = Reminder.init(fromDictionary: args)
+             print("reminder in Enter \(reminder)")
             if #available(iOS 10.0, *) {
                 SwiftGeofencingPlugin.geoFencing.handleEnterRegion(reminder: reminder)
             }
