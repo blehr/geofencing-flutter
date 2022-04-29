@@ -114,7 +114,7 @@ public class GeoFencing : NSObject, CLLocationManagerDelegate {
     @available(iOS 10.0, *)
     func requestNotificationAccess() {
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { (granted, error) in
-            print("granted: (\(granted)")
+            print("granted Notification access: \(granted)")
         }
     }
     
