@@ -18,7 +18,7 @@ struct Reminder {
     lat = r["lat"] as! Double
     lng = r["lng"] as! Double
     radius = r["radius"] as! Int
-    name = r[name] as! String
+    name = r["name"] as! String
     active = r["active"] != nil ? r["active"] as! Bool : false
     message = r["message"] as! String
     snoozeTill = r["snoozeTill"] as! Double
