@@ -85,6 +85,7 @@ class Geofencing extends ChangeNotifier {
           args["lat"] = call.arguments["lat"];
           args["lng"] = call.arguments["lng"];
           lastLoc = args;
+          print(args);
           notifyListeners();
         } catch (e) {
           if (kDebugMode) {

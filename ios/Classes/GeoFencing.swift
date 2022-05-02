@@ -89,7 +89,8 @@ public class GeoFencing : NSObject, CLLocationManagerDelegate {
         }
         locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
         locationManager.distanceFilter = kCLDistanceFilterNone
-        locationManager.startUpdatingLocation()
+        // locationManager.startUpdatingLocation()
+        locationManager.requestLocation()
         // let reminders = remindService.getReminders()
         // var array = [Reminder]()
         // for r in reminders {
