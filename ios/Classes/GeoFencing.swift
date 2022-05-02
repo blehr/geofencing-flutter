@@ -101,7 +101,9 @@ public class GeoFencing : NSObject, CLLocationManagerDelegate {
     public func locationManager(_ manager: CLLocationManager,  didUpdateLocations locations: [CLLocation]) {
         self.lastLocation = locations.last!
         let delta = lastLocation?.timestamp.timeIntervalSinceNow
-        print("timestamp \(lastLocation?.timestamp), delta: \(delta)")
+        if (delta ?? -121 > -120) {
+            manager.stopUpdatingLocation()
+        }
         
        delegate?.locationDidUpdate(location: lastLocation!)
     }

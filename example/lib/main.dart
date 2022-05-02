@@ -18,13 +18,18 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   String _platformVersion = 'Unknown';
   String status = "not yet";
-  var geofencing = Geofencing();
+  late Geofencing geofencing;
   Map<String, double>? loc;
 
   @override
   void initState() {
     super.initState();
+    geofencing = Geofencing(getReminderById);
     initPlatformState();
+  }
+
+  getReminderById() {
+    return true;
   }
 
   Future<void> getStatus() async {

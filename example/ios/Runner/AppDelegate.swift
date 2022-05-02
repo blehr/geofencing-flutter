@@ -2,11 +2,12 @@ import UIKit
 import Flutter
 import UserNotifications
 import CoreLocation
+import geofencing
 
 @UIApplicationMain
-@objc class AppDelegate: FlutterAppDelegate, UIResponder, UIApplicationDelegate,  UNUserNotificationCenterDelegate, CLLocationManagerDelegate {
+@objc class AppDelegate: FlutterAppDelegate, CLLocationManagerDelegate {
     var locationManager: CLLocationManager?
-    var geoFencing = GeoFencing()
+    var geoFencing = SwiftGeofencingPlugin.geoFencing
     
     
   override func application(
@@ -29,7 +30,7 @@ import CoreLocation
         if let region = region as? CLCircularRegion {
             let identifier = region.identifier
             print(identifier)
-            geoFencing.handleEnterRegion(reminderId: String(identifier)!)
+            geoFencing.handleEnterRegion(reminderId: String(identifier))
         }
     }
     
@@ -37,18 +38,18 @@ import CoreLocation
         if let region = region as? CLCircularRegion {
             let identifier = region.identifier
              print(identifier)
-            geoFencing.handleExitRegion(reminderId: String(identifier)!)
+            geoFencing.handleExitRegion(reminderId: String(identifier))
         }
     }
     
-    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+    override func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         completionHandler([.alert, .sound])
     }
     
-    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+    override func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         print(response.notification.request.identifier)
         
-        var reminderId = 0
+        var reminderId = ""
         
         let userInfo = response.notification.request.content.userInfo
         if let remindId = userInfo["reminderId"] {
