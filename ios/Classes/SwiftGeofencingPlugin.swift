@@ -111,8 +111,8 @@ public class SwiftGeofencingPlugin: NSObject, FlutterPlugin, GeoFencingDelegate 
 //            result(true)
 //        }
         else if (call.method.elementsEqual("getNumberOfActiveRegions")) {
-            int num = SwiftGeofencingPlugin.geoFencing.getActiveRegions();
-            result(num);
+            Int regions = SwiftGeofencingPlugin.geoFencing.getActiveRegions();
+            result(regions.count);
         }
         
         else if (call.method.elementsEqual("stopUpdatingLocationForApp")) {
