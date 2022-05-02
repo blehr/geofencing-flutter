@@ -52,7 +52,7 @@ import geofencing
         var reminderId = ""
         
         let userInfo = response.notification.request.content.userInfo
-        if let remindId = userInfo["reminderId"] {
+        if let remindId = userInfo["id"] {
             reminderId = remindId as! String
         }
         
