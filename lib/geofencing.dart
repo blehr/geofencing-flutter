@@ -50,8 +50,8 @@ class Geofencing extends ChangeNotifier {
     return activeRegions;
   }
 
-  Future<String> reminderForEnterRegion(Map<String, dynamic> reminder) async {
-    final String status =
+  Future<bool> reminderForEnterRegion(Map<String, dynamic> reminder) async {
+    final bool status =
         await _channel.invokeMethod("reminderForEnter", reminder);
     return status;
   }
@@ -68,11 +68,11 @@ class Geofencing extends ChangeNotifier {
     return status;
   }
 
-  Future<bool> reminderForSnooze(Map<String, dynamic> reminder) async {
-    final bool status =
-        await _channel.invokeMethod("reminderForSnooze", reminder);
-    return status;
-  }
+  // Future<bool> reminderForSnooze(Map<String, dynamic> reminder) async {
+  //   final bool status =
+  //       await _channel.invokeMethod("reminderForSnooze", reminder);
+  //   return status;
+  // }
 
   Future<dynamic> myMethodCallHandler(MethodCall call) async {
     if (kDebugMode) {
@@ -96,7 +96,7 @@ class Geofencing extends ChangeNotifier {
         String id = call.arguments["id"];
         print("idForEnter $id");
         // send id to app - get reminder - call reminderForEnterRegion with reminderMap
-        var reminder = getReminderById(id);
+        var reminder = getReminderById(id, "ENTER");
         print(reminder);
         reminderForEnterRegion(reminder);
         break;
@@ -104,20 +104,20 @@ class Geofencing extends ChangeNotifier {
         String id = call.arguments["id"];
         print("idForExit $id");
         // send id to app - get reminder - call reminderForExitRegion with reminderMap
-        var reminder = getReminderById(id);
+        var reminder = getReminderById(id, "EXIT");
         print(reminder);
         reminderForExitRegion(reminder);
         break;
       case "idForSnooze":
         String id = call.arguments["id"];
         // send id to app - get reminder - snooze reminder
-        var reminder = getReminderById(id);
-        reminderForSnooze(reminder);
+        var reminder = getReminderById(id, "SNOOZE");
+        // reminderForSnooze(reminder);
         break;
       case "idForDisable":
         String id = call.arguments["id"];
         // send id to app - get reminder - set reminder to active = false - send reminder to reminderForDisable
-        var reminder = getReminderById(id);
+        var reminder = getReminderById(id, "DISABLE");
         reminderForDisable(reminder);
         break;
     }

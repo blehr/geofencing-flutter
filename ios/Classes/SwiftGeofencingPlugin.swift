@@ -30,7 +30,7 @@ public class SwiftGeofencingPlugin: NSObject, FlutterPlugin, GeoFencingDelegate 
     public static var geoFencing: GeoFencing = GeoFencing()
     static var channel: FlutterMethodChannel?
     static var instance: SwiftGeofencingPlugin?
-
+    
     func locationDidUpdate(location: CLLocation) {
         var send : [String: Double] = [:]
         send["lat"] = location.coordinate.latitude
@@ -71,21 +71,21 @@ public class SwiftGeofencingPlugin: NSObject, FlutterPlugin, GeoFencingDelegate 
             SwiftGeofencingPlugin.geoFencing.enableLocationServices()
             result("true")
         } else if (call.method.elementsEqual("handleRegisterRegionsByLocation")) {
-             // send appEnabled and list reminders -> returns count of active regions
+            // send appEnabled and list reminders -> returns count of active regions
             let args: [String: Any] = call.arguments as! [String : Any]
             let appEnabled = args["appEnabled"] as! Bool
             print("appEnabled  = \(appEnabled)")
             
             let reminds = args["reminders"] as! [[String: Any]]
             let reminders = convertListDictToArrayReminders(dictionaryReminders: reminds)
-        
+            
             let activeRegions = SwiftGeofencingPlugin.geoFencing.handleRegisterRegionsByLocation(reminders: reminders, appEnabled: appEnabled)
             result(activeRegions.count)
         } else if (call.method.elementsEqual("reminderForEnter")) {
-             let args: [String: Any] = call.arguments as! [String : Any]
-             print("args in Enter \(args)")
-             let reminder = Reminder.init(fromDictionary: args)
-             print("reminder in Enter \(reminder)")
+            let args: [String: Any] = call.arguments as! [String : Any]
+            print("args in Enter \(args)")
+            let reminder = Reminder.init(fromDictionary: args)
+            print("reminder in Enter \(reminder)")
             if #available(iOS 10.0, *) {
                 SwiftGeofencingPlugin.geoFencing.handleEnterRegion(reminder: reminder)
             }
@@ -93,16 +93,25 @@ public class SwiftGeofencingPlugin: NSObject, FlutterPlugin, GeoFencingDelegate 
         } else if (call.method.elementsEqual("reminderForExit")) {
             let args: [String: Any] = call.arguments as! [String : Any]
             let reminder = Reminder.init(fromDictionary: args)
-           if #available(iOS 10.0, *) {
-               SwiftGeofencingPlugin.geoFencing.handleExitRegion(reminder: reminder)
-           }
-           result(true)
+            if #available(iOS 10.0, *) {
+                SwiftGeofencingPlugin.geoFencing.handleExitRegion(reminder: reminder)
+            }
+            result(true)
         }  else if (call.method.elementsEqual("reminderForDisable")) {
             let args: [String: Any] = call.arguments as! [String : Any]
             let reminder = Reminder.init(fromDictionary: args)
             SwiftGeofencingPlugin.geoFencing.disableReminder(reminder: reminder)
-           result(true)
-        } else if (call.method.elementsEqual("stopUpdatingLocationForApp")) {
+            result(true)
+            
+        }
+//        else if (call.method.elementsEqual("reminderForSnooze")) {
+//            let args: [String: Any] = call.arguments as! [String : Any]
+//            let reminder = Reminder.init(fromDictionary: args)
+//            SwiftGeofencingPlugin.geoFencing.disableReminder(reminder: reminder)
+//            result(true)
+//        }
+        
+        else if (call.method.elementsEqual("stopUpdatingLocationForApp")) {
             SwiftGeofencingPlugin.geoFencing.stopUpdatingLocationForApp();
             result(true)
         }
@@ -112,8 +121,8 @@ public class SwiftGeofencingPlugin: NSObject, FlutterPlugin, GeoFencingDelegate 
         
         result("iOS " + UIDevice.current.systemVersion)
     }
-
-
+    
+    
     func convertListDictToArrayReminders(dictionaryReminders: [[String: Any]]) -> [Reminder] {
         var reminders = [Reminder]()
         for r in dictionaryReminders {
