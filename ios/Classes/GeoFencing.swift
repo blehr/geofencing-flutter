@@ -89,8 +89,7 @@ public class GeoFencing : NSObject, CLLocationManagerDelegate {
         }
         locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
         locationManager.distanceFilter = kCLDistanceFilterNone
-        // locationManager.startUpdatingLocation()
-        locationManager.requestLocation()
+        locationManager.startUpdatingLocation()
         // let reminders = remindService.getReminders()
         // var array = [Reminder]()
         // for r in reminders {
@@ -101,6 +100,8 @@ public class GeoFencing : NSObject, CLLocationManagerDelegate {
     
     public func locationManager(_ manager: CLLocationManager,  didUpdateLocations locations: [CLLocation]) {
         self.lastLocation = locations.last!
+        let delta = lastLocation?.timestamp.timeIntervalSinceNow
+        print("timestamp \(lastLocation?.timestamp), delta: \(delta)")
         
        delegate?.locationDidUpdate(location: lastLocation!)
     }
