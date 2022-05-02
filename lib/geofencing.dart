@@ -117,6 +117,7 @@ class Geofencing extends ChangeNotifier {
       case "idForSnooze":
         String id = call.arguments["id"];
         // send id to app - get reminder - snooze reminder
+        print("idForSnooze: $id");
         var reminder = getReminderById(id, "SNOOZE");
         // reminderForSnooze(reminder);
         break;

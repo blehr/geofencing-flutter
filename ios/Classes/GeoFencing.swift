@@ -96,6 +96,22 @@ public class GeoFencing : NSObject, CLLocationManagerDelegate {
         //     array.append(r)
         // }
         // handleRegisterRegionsByLocation(reminders: array)
+//        var dict = [String: Any]()
+//        dict["id"] = "12345"
+//        dict["lat"] = 36.0
+//        dict["lng"] = 83.0
+//        dict["radius"] = 100
+//        dict["name"] = "Test"
+//        dict["active"] = true
+//        dict["message"] = "Testing"
+//        dict["snoozeTill"] = 0.0
+//        dict["snoozeLength"] = 1
+//        let reminder = Reminder(fromDictionary: dict)
+//        if #available(iOS 10.0, *) {
+//            createLocalNotificationTrigger(reminder: reminder, trigger: "Entering ")
+//        } else {
+//            // Fallback on earlier versions
+//        }
     }
     
     public func locationManager(_ manager: CLLocationManager,  didUpdateLocations locations: [CLLocation]) {
