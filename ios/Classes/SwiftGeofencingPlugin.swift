@@ -110,6 +110,10 @@ public class SwiftGeofencingPlugin: NSObject, FlutterPlugin, GeoFencingDelegate 
 //            SwiftGeofencingPlugin.geoFencing.disableReminder(reminder: reminder)
 //            result(true)
 //        }
+        else if (call.method.elementsEqual("getNumberOfActiveRegions")) {
+            int num = SwiftGeofencingPlugin.geoFencing.getActiveRegions();
+            result(num);
+        }
         
         else if (call.method.elementsEqual("stopUpdatingLocationForApp")) {
             SwiftGeofencingPlugin.geoFencing.stopUpdatingLocationForApp();

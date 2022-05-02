@@ -225,11 +225,11 @@ public class GeoFencing : NSObject, CLLocationManagerDelegate {
     }
     
     
-    // func getActiveRegions() -> Set<CLRegion> {
-    //     let activeRegions = locationManager.monitoredRegions
-    //     print("ACTIVE REGIONS \(activeRegions)")
-    //     return activeRegions;
-    // }
+    public func getActiveRegions() -> Set<CLRegion> {
+        let activeRegions = locationManager.monitoredRegions
+        print("ACTIVE REGIONS \(activeRegions)")
+        return activeRegions;
+    }
     
      public func handleEnterRegion(reminderId: String) {
          // send enter action and id to get reminder

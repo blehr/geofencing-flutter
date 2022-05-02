@@ -39,6 +39,11 @@ class Geofencing extends ChangeNotifier {
     return status;
   }
 
+  Future<int> getNumberOfActiveRegions() async {
+    final int result = await _channel.invokeMethod("getNumberOfActiveRegions");
+    return result;
+  }
+
   Future<int> handleRegisterRegionsByLocation(
       List<Map<String, dynamic>> reminders, bool appEnabled) async {
     Map<String, dynamic> send = <String, dynamic>{};
