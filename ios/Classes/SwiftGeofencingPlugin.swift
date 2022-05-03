@@ -3,6 +3,12 @@ import UIKit
 import CoreLocation
 
 public class SwiftGeofencingPlugin: NSObject, FlutterPlugin, GeoFencingDelegate {
+    func openToReminder(id: String) {
+        var send: [String: String] = [:]
+        send["id"] = id
+        SwiftGeofencingPlugin.openToReminder(args: send)
+    }
+    
     func snoozeReminderFromId(id: String) {
         var send: [String: String] = [:]
         send["id"] = id
@@ -54,6 +60,9 @@ public class SwiftGeofencingPlugin: NSObject, FlutterPlugin, GeoFencingDelegate 
     public static func sendIdForDisable(args: [String: String]) {
         channel?.invokeMethod("idForDisable", arguments: args)
     }
+    public static func openToReminder(args: [String: String]) {
+        channel?.invokeMethod("openToReminder", arguments: args)
+    }
     
     
     public static func register(with registrar: FlutterPluginRegistrar) {
@@ -66,7 +75,6 @@ public class SwiftGeofencingPlugin: NSObject, FlutterPlugin, GeoFencingDelegate 
     
     
     public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
-        print("Call Method in SwiftGeoFencing: \(call.method)")
         if (call.method.elementsEqual("enableLocationServices")) {
             SwiftGeofencingPlugin.geoFencing.enableLocationServices()
             result("true")
@@ -74,7 +82,6 @@ public class SwiftGeofencingPlugin: NSObject, FlutterPlugin, GeoFencingDelegate 
             // send appEnabled and list reminders -> returns count of active regions
             let args: [String: Any] = call.arguments as! [String : Any]
             let appEnabled = args["appEnabled"] as! Bool
-            print("appEnabled  = \(appEnabled)")
             
             let reminds = args["reminders"] as! [[String: Any]]
             let reminders = convertListDictToArrayReminders(dictionaryReminders: reminds)
@@ -83,9 +90,7 @@ public class SwiftGeofencingPlugin: NSObject, FlutterPlugin, GeoFencingDelegate 
             result(activeRegions.count)
         } else if (call.method.elementsEqual("reminderForEnter")) {
             let args: [String: Any] = call.arguments as! [String : Any]
-            print("args in Enter \(args)")
             let reminder = Reminder.init(fromDictionary: args)
-            print("reminder in Enter \(reminder)")
             if #available(iOS 10.0, *) {
                 SwiftGeofencingPlugin.geoFencing.handleEnterRegion(reminder: reminder)
             }
@@ -104,12 +109,6 @@ public class SwiftGeofencingPlugin: NSObject, FlutterPlugin, GeoFencingDelegate 
             result(true)
             
         }
-//        else if (call.method.elementsEqual("reminderForSnooze")) {
-//            let args: [String: Any] = call.arguments as! [String : Any]
-//            let reminder = Reminder.init(fromDictionary: args)
-//            SwiftGeofencingPlugin.geoFencing.disableReminder(reminder: reminder)
-//            result(true)
-//        }
         else if (call.method.elementsEqual("getNumberOfActiveRegions")) {
             let regions = SwiftGeofencingPlugin.geoFencing.getActiveRegions();
             result(regions.count);

@@ -73,12 +73,6 @@ class Geofencing extends ChangeNotifier {
     return status;
   }
 
-  // Future<bool> reminderForSnooze(Map<String, dynamic> reminder) async {
-  //   final bool status =
-  //       await _channel.invokeMethod("reminderForSnooze", reminder);
-  //   return status;
-  // }
-
   Future<dynamic> myMethodCallHandler(MethodCall call) async {
     if (kDebugMode) {
       print(call.method);
@@ -90,7 +84,6 @@ class Geofencing extends ChangeNotifier {
           args["lat"] = call.arguments["lat"];
           args["lng"] = call.arguments["lng"];
           lastLoc = args;
-          print(args);
           notifyListeners();
         } catch (e) {
           if (kDebugMode) {
@@ -100,24 +93,19 @@ class Geofencing extends ChangeNotifier {
         break;
       case "idForEnter":
         String id = call.arguments["id"];
-        print("idForEnter $id");
         // send id to app - get reminder - call reminderForEnterRegion with reminderMap
         var reminder = getReminderById(id, "ENTER");
-        print(reminder);
         reminderForEnterRegion(reminder);
         break;
       case "idForExit":
         String id = call.arguments["id"];
-        print("idForExit $id");
         // send id to app - get reminder - call reminderForExitRegion with reminderMap
         var reminder = getReminderById(id, "EXIT");
-        print(reminder);
         reminderForExitRegion(reminder);
         break;
       case "idForSnooze":
         String id = call.arguments["id"];
         // send id to app - get reminder - snooze reminder
-        print("idForSnooze: $id");
         var reminder = getReminderById(id, "SNOOZE");
         // reminderForSnooze(reminder);
         break;
@@ -127,6 +115,9 @@ class Geofencing extends ChangeNotifier {
         var reminder = getReminderById(id, "DISABLE");
         reminderForDisable(reminder);
         break;
+      case "openToReminder":
+        String id = call.arguments["id"];
+        var reminder = getReminderById(id, "OPEN_TO_REMINDER");
     }
   }
 }

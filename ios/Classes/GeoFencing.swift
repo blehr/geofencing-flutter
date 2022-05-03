@@ -16,6 +16,7 @@ protocol GeoFencingDelegate {
     func getReminderForExit(id: String)
     func snoozeReminderFromId(id: String)
     func disableReminderFromId(id: String)
+    func openToReminder(id: String)
 }
 
 public class GeoFencing : NSObject, CLLocationManagerDelegate {
@@ -27,7 +28,6 @@ public class GeoFencing : NSObject, CLLocationManagerDelegate {
     
     
     func enableLocationServices() {
-        print("Check Location Access and Start")
         locationManager.delegate = self
         
         switch CLLocationManager.authorizationStatus() {
@@ -44,8 +44,6 @@ public class GeoFencing : NSObject, CLLocationManagerDelegate {
             break
             
         case .authorizedAlways:
-            //            locationManager.allowsBackgroundLocationUpdates = true
-            
             locationManager.pausesLocationUpdatesAutomatically = false
             
             startReceivingLocationChanges()
@@ -62,23 +60,13 @@ public class GeoFencing : NSObject, CLLocationManagerDelegate {
     
     func stopUpdatingLocationForApp() {
         locationManager.stopUpdatingLocation()
-        
-        print("Stopping Location Updates For App")
     }
     
     func stopUpdatingLocation() {
         locationManager.stopUpdatingLocation()
-        // let reminders = remindService.getReminders()
-        // var array = [Reminder]()
-        // for r in reminders {
-        //     array.append(r)
-        // }
-        // handleRegisterRegionsByLocation(reminders: array)
-        print("Stopping Location Updates")
     }
     
     func startReceivingLocationChanges() {
-        print("Start Location updates")
         let authorizationStatus = CLLocationManager.authorizationStatus()
         if authorizationStatus != .authorizedAlways {
             return
@@ -90,12 +78,6 @@ public class GeoFencing : NSObject, CLLocationManagerDelegate {
         locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
         locationManager.distanceFilter = kCLDistanceFilterNone
         locationManager.startUpdatingLocation()
-        // let reminders = remindService.getReminders()
-        // var array = [Reminder]()
-        // for r in reminders {
-        //     array.append(r)
-        // }
-        // handleRegisterRegionsByLocation(reminders: array)
     }
     
     public func locationManager(_ manager: CLLocationManager,  didUpdateLocations locations: [CLLocation]) {
@@ -125,7 +107,6 @@ public class GeoFencing : NSObject, CLLocationManagerDelegate {
     
     @available(iOS 10.0, *)
     func createLocalNotificationTrigger(reminder: Reminder, trigger: String) {
-        print("creating local notification trigger");
          let content = UNMutableNotificationContent()
          content.title = "\(trigger)\(reminder.name)"
          content.body = reminder.message
@@ -169,26 +150,20 @@ public class GeoFencing : NSObject, CLLocationManagerDelegate {
             // Fallback on earlier versions
         }
     }
+
+    public func openToReminder(reminderId: String) {
+        delegate?.openToReminder(id: reminderId)
+    }
     
      public func snoozeReminder(reminderId: String) {
         // send id to app - all work below can be done there
          delegate?.snoozeReminderFromId(id: reminderId)
-         
-        // let copy = reminder.toUpdateReminder()
-        // let timeInterval = Double(copy.snoozeLength) * 60 * 60
-        // copy.snoozeTill =  (Date().addingTimeInterval(timeInterval)).timeIntervalSince1970
-        // remindService.saveReminder(reminder: copy)
      }
     
     
      public func disableReminder(reminderId: String) {
          // send id to app - update reminder - send reminder to disable reminder
          delegate?.disableReminderFromId(id: reminderId)
-//         let reminder = remindService.getReminderById(id: reminderId)
-//         let copy = reminder.toUpdateReminder()
-//         copy.active = false
-//
-//         remindService.saveReminder(reminder: copy)
      }
     
     func disableReminder(reminder: Reminder) {
@@ -197,9 +172,7 @@ public class GeoFencing : NSObject, CLLocationManagerDelegate {
     
     func startMonitoringReminderLocation(reminder: Reminder) {
         if CLLocationManager.authorizationStatus() == .authorizedAlways {
-            print("Authorized")
             if CLLocationManager.isMonitoringAvailable(for: CLCircularRegion.self) {
-                print("monitoring is available for \(reminder.name)")
                 let center = CLLocationCoordinate2D(latitude: reminder.lat, longitude: reminder.lng)
                 let region = CLCircularRegion(center: center,
                                               radius: CLLocationDistance(reminder.radius), identifier: "\(reminder.id)")
@@ -213,7 +186,6 @@ public class GeoFencing : NSObject, CLLocationManagerDelegate {
     }
     
     func stopMonitoringReminderLocation(reminder: Reminder) {
-        print("stopping monitoring on \(reminder.name)")
         let center =  reminder.getLocation2D()
         let region = CLCircularRegion(center: center,
                                       radius: CLLocationDistance(reminder.radius), identifier: "\(reminder.id)")
@@ -274,10 +246,8 @@ public class GeoFencing : NSObject, CLLocationManagerDelegate {
         let inactiveReminders = reminders.filter{$0.active == false}
         let maxCount = 20
         let activeRegions = locationManager.monitoredRegions
-        print("active: \(activeReminders.count), inactive: \(inactiveReminders.count), activeRegions: \(activeRegions.count)")
         
         for ar in activeRegions {
-            print("active Region being stopped before continuing \(ar)")
             locationManager.stopMonitoring(for: ar)
         }
         
@@ -304,21 +274,10 @@ public class GeoFencing : NSObject, CLLocationManagerDelegate {
             }
         }
         let active = locationManager.monitoredRegions
-        print("Monitored Regions \(locationManager.monitoredRegions)")
         return active
     }
     
     
-//    func formatDateToISO(date: Date) -> String {
-//        var secondsFromGMT: Int { return TimeZone.current.secondsFromGMT() }
-//        let formatter = DateFormatter()
-//        formatter.calendar = Calendar(identifier: .iso8601)
-//        formatter.locale = Locale(identifier: "en_US")
-//        formatter.timeZone = TimeZone(secondsFromGMT: secondsFromGMT)
-//        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm"
-//        print(formatter.string(from: date))
-//        return formatter.string(from: date)
-//    }
     
 }
 
