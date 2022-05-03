@@ -116,8 +116,9 @@ class Geofencing extends ChangeNotifier {
         reminderForDisable(reminder);
         break;
       case "openToReminder":
-        String id = call.arguments["id"];
-        var reminder = getReminderById(id, "OPEN_TO_REMINDER");
+        // String id = call.arguments["id"];
+        // var reminder = getReminderById(id, "OPEN_TO_REMINDER");
+        break;
     }
   }
 }
